@@ -4,11 +4,14 @@ import PokemonModal from '@/components/modals/PokemonModal';
 import SignInModal from '@/components/modals/SignInModal';
 import SignUpModal from '@/components/modals/SignUpModal';
 import { getUserByCookie } from '@/components/db/neon';
+import Pagination from '@/components/Pagination';
 
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: { offset: string; } }) {
 
-  const data = await getPokemon();
+  const params = await searchParams;
+
+  const data = await getPokemon(params.offset);
 
   const promisesArray = data.map(async (item) => {
     const name = item.name;
@@ -39,6 +42,7 @@ export default async function Home() {
         {allPokemonInfo.map(item => (<PokemonCard key={item.id} name={item.name} id={item.id} details={item.details} />))}
       </div>
 
+      <Pagination />
 
       <PokemonModal user={user} />
       <SignInModal />
