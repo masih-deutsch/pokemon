@@ -40,12 +40,6 @@ export default async function Allies() {
       </div>
 
 
-      <div className="mb-12 flex justify-center">
-        <Link href="/battle" className="flex bg-cyan-600 text-white px-12 py-5 text-xl font-extrabold rounded-xl hover:bg-cyan-500 transition duration-300 ease-in shadow-lg shadow-cyan-500/40 cursor-pointer uppercase tracking-widest">
-          ENTER BATTLE ARENA
-        </Link>
-      </div>
-
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {myAlliesInfo.map(item => <AlliesCard key={item.pokemonId} myAlly={item} />)}
 
@@ -55,7 +49,6 @@ export default async function Allies() {
               <div className='h-16 w-16 rounded-full bg-slate-800 flex items-center justify-center mb-4'>
                 <span className='text-3xl text-slate-500'><Plus /></span>
               </div>
-              {/* <h3 className='text-xl font-bold text-slate-400'>You have {6 - allies.length} empty slot(s)</h3> */}
               <h3 className='text-xl font-bold text-slate-400'>Empty slot # {i + 1} </h3>
               <p className='text-sm flex items-center gap-1 text-slate-500 mt-2'>Add more Pokémon from Explore <ScanSearch /></p>
             </div>

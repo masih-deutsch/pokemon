@@ -5,7 +5,8 @@ import { PokemonDetails } from './types';
 import { useTransition } from 'react';
 import { removeAllyAction } from '@/app/allies/action';
 import { toast } from 'sonner';
-import { Loader, Trash2 } from 'lucide-react';
+import { Loader, Swords, Trash2 } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   myAlly: {
@@ -20,6 +21,11 @@ interface Props {
 
 export default function AlliesCard({ myAlly }: Props) {
 
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+
   const [pending, startTransition] = useTransition();
 
   async function handleRemove() {
@@ -31,6 +37,13 @@ export default function AlliesCard({ myAlly }: Props) {
         toast.success(`${myAlly.details.name} has been removed`);
       }
     });
+  }
+
+
+  function myChosenHero() {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("ally", String(myAlly.pokemonId));
+    router.replace(`/battle?${params.toString()}`);
   }
 
 
@@ -71,10 +84,19 @@ export default function AlliesCard({ myAlly }: Props) {
             </div>
           </div>
         </div>
-        <div onClick={handleRemove} className='mx-auto flex flex-col items-center justify-between md:flex-row md:items-center '>
-          <button className='w-full md:w-auto bg-red-500/10 text-red-400 px-6 py-3 rounded-lg border border-red-500/20 hover:bg-red-500/20 hover:text-red-300 transition text-sm font-bold flex justify-center items-center shadow-[0_0_10px_rgba(239,68,68,0.1)] hover:animate-pulse gap-2'>
-            {pending ? <Loader className="animate-spin" /> : <Trash2 />} Remove from Allies
+
+        <div className='flex items-center justify-between gap-4'>
+
+          <div onClick={handleRemove} className='flex flex-col items-center justify-between md:flex-row md:items-center '>
+            <button className='w-full md:w-auto bg-red-500/10 text-red-400 px-6 py-3 rounded-lg border border-red-500/20 hover:bg-red-500/20 hover:text-red-300 transition text-sm font-bold flex justify-center items-center shadow-lg shadow-red-950/70 hover:animate-pulse gap-2'>
+              {pending ? <Loader className="animate-spin" /> : <Trash2 />} Remove from Allies
+            </button>
+          </div>
+
+          <button onClick={myChosenHero} className="flex bg-cyan-600 text-white px-6 py-3 rounded-lg hover:bg-cyan-500 transition duration-300 ease-in shadow-lg shadow-cyan-500/40 cursor-pointer tracking-widest hover:animate-pulse text-sm font-bold gap-2">
+            <Swords /> Enter Battle Arena
           </button>
+
         </div>
       </div>
     </>

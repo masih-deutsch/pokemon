@@ -197,13 +197,13 @@ export default function BattleBoard({ myHero, myEnemy }: { myHero: PokemonDetail
           <div className='grid grid-cols-2 gap-4'>
 
             <button onClick={attackHandler}
-              disabled={!battle.isMyTurn}
+              disabled={!battle.isMyTurn || !startBattle}
               className='bg-cyan-600 hover:bg-cyan-500 text-white py-4 rounded-xl font-bold text-lg shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-colors border border-cyan-400/50 flex items-center justify-center gap-2 disabled:bg-slate-700 disabled:text-slate-500 disabled:border-slate-600 disabled:cursor-not-allowed disabled:shadow-none'>
               {battle.isMyTurn ? "Eat This!" : "Enemy Turn"}<Sword />
             </button>
 
             <button onClick={defendHandler}
-              disabled={!battle.isMyTurn}
+              disabled={!battle.isMyTurn || !startBattle}
               className='bg-teal-600 hover:bg-teal-500 text-white py-4 rounded-xl font-bold text-lg border border-slate-600 transition-colors flex items-center justify-center gap-2 disabled:bg-slate-700 disabled:text-slate-500 disabled:border-slate-600 disabled:cursor-not-allowed disabled:shadow-none'>
               Turtle Mode!<Shield />
             </button>

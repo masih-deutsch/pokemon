@@ -10,23 +10,50 @@ import { redirect } from 'next/navigation';
 
 
 
-export default async function Battle() {
+export default async function Battle({ searchParams }: { searchParams: { ally: string } }) {
+
 
   const user = await getUserByCookie();
   if (!user || !user.id) redirect('/');
+
+
 
   const allies = await getAllUserAllies(Number(user?.id));
   if (allies.length === 0) {
     return (
       <div className="flex flex-col items-center h-screen justify-center gap-20 text-3xl">
         <p className="text-red-500 animate-pulse">You must have at least 1 ally to battle</p>
-        <Link href={"/"} className="flex bg-cyan-600 text-white px-12 py-5 text-xl font-extrabold rounded-xl hover:bg-cyan-500 transition duration-300 ease-in shadow-lg shadow-cyan-500/40 cursor-pointer uppercase tracking-widest"><div>Back to Home</div> </Link>
+        <Link href={"/"} className="flex bg-cyan-600 text-white px-12 py-5 text-xl font-extrabold rounded-xl hover:bg-cyan-500 transition duration-300 ease-in shadow-lg shadow-cyan-500/40 cursor-pointer uppercase tracking-widest"><div>Back to Home</div>
+        </Link>
       </div>
     );
   };
 
-  const myHero = await getPokemonInfo(allies[0].pokemonId);
+
+
+  const params = await searchParams
+  const myChosenHero = Number(params.ally) || allies[0].pokemonId
+
+  console.log('params.ally', params.ally)
+  console.log('Number(params.ally)', Number(params.ally))
+
+  if (params.ally && !(allies.map(item => item.pokemonId).includes(Number(params.ally)))) {
+    return (
+      <div className="flex flex-col items-center h-screen justify-center gap-10 text-3xl">
+        <p className="text-red-500 animate-pulse text-center capitalize">You must have this Pokémon as your ally <br /> Please add it first</p>
+        <Link href={"/"} className="flex bg-cyan-600 text-white px-12 py-5 text-xl font-extrabold rounded-xl hover:bg-cyan-500 transition duration-300 ease-in shadow-lg shadow-cyan-500/40 cursor-pointer uppercase tracking-widest"><div>Back to Home</div>
+        </Link>
+      </div>
+    );
+  }
+
+  const myHero = await getPokemonInfo(Number(myChosenHero));
   const myEnemy = await getPokemonEnemy();
+
+
+
+
+
 
 
   return (

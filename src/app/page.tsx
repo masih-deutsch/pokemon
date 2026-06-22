@@ -1,4 +1,4 @@
-import { getAllPokemon, getPokemon, getPokemonInfo, makePromiseArray } from '@/components/pokeAPI';
+import { getAllPokemon, makePromiseArray } from '@/components/pokeAPI';
 import PokemonCard from '@/components/PokemonCard';
 import PokemonModal from '@/components/modals/PokemonModal';
 import SignInModal from '@/components/modals/SignInModal';
